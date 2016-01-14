@@ -106,6 +106,8 @@ class JacocoTaskExtension {
      */
     boolean jmx = false
 
+    String additionalOptions
+
     /**
      * The task we extend
       */
@@ -148,9 +150,12 @@ class JacocoTaskExtension {
         }
 
         builder << '-javaagent:'
-
         builder << GFileUtils.relativePath(task.getWorkingDir(), agent.jar)
         builder << '='
+        if (additionalOptions) {
+          builder << additionalOptions
+          anyArgs = true
+        }
         arg 'destfile', getDestinationFile()
         arg 'append', getAppend()
         arg 'includes', getIncludes()
