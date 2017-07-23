@@ -31,6 +31,8 @@ import org.gradle.internal.jacoco.JacocoAgentJar;
 import org.gradle.process.JavaForkOptions;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
@@ -153,7 +155,10 @@ public class JacocoPluginExtension {
             @Override
             public void execute(Task input) {
                 if (extension.isEnabled()) {
-                    task.jvmArgs(extension.getAsJvmArg());
+                    List<String> args = new ArrayList<>();
+                    args.add(extension.getAsJvmArg());
+                    args.addAll(task.getJvmArgs());
+                    task.setJvmArgs(args);
                 }
             }
         });
